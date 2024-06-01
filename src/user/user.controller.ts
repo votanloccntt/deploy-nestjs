@@ -1,6 +1,6 @@
 import { Get, HttpStatus, Post } from '@nestjs/common';
 import { UserService } from './user.service';
-import { SwaggerMethod } from 'src/common/decorators/swagger-method.decorator';
+// import { SwaggerMethod } from 'src/common/decorators/swagger-method.decorator';
 import { TagController } from 'src/common/decorators/tag-controller.decorator';
 
 @TagController('user')
