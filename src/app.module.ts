@@ -4,6 +4,8 @@ import { ConfigModule } from '@nestjs/config';
 import { User } from './user/user.entity';
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
+import { join } from 'path';
+import { ServeStaticModule } from '@nestjs/serve-static';
 
 @Module({
   imports: [
@@ -17,6 +19,10 @@ import { AppController } from './app.controller';
       database: process.env.POSTGRES_DB,
       entities: [User],
       synchronize: true,
+    }),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'swagger-static'),
+      serveRoot: process.env.NODE_ENV === 'development' ? '/' : '/swagger',
     }),
     UserModule,
   ],
