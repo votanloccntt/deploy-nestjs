@@ -1,4 +1,10 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  HttpException,
+  HttpStatus,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './user.entity';
 import { Repository } from 'typeorm';
@@ -9,18 +15,11 @@ export class UserService {
     @InjectRepository(User)
     private usersRepository: Repository<User>,
   ) {}
-  getUsers() {
-    const users = [
-      {
-        name: 'loc',
-        age: 18,
-      },
-      {
-        name: 'Trieu',
-        age: 19,
-      },
-    ];
-    return users;
+
+  async getUsers() {
+    const users = await this.usersRepository.find();
+    if (users.length < 1) throw new NotFoundException('Không tìm thấy users');
+    return new HttpException(users, HttpStatus.OK);
   }
 
   async createUser() {
